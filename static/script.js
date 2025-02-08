@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     recognition.continuous = true;
     recognition.interimResults = true;
 
-    let socket = new WebSocket("ws://127.0.0.1:5000/ws");
+    let socket = new WebSocket("ws://127.0.0.1:5001/ws");
 
     startBtn.addEventListener("click", () => {
         recognition.start();

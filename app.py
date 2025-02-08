@@ -2,6 +2,10 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from flask_sock import Sock
 import json
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
@@ -9,11 +13,15 @@ sock = Sock(app)
 
 cpt_history = []
 
+full_transcription = ""
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
 def generate_cpt_codes(transcribed_text):
+    global full_transcription
+    full_transcription += transcribed_text.lower()
     cpt_dict = {
         "consultation": "99241",
         "physical examination": "99386",
@@ -50,4 +58,4 @@ def websocket_connection(ws):
             ws.send(json.dumps({"error": "Invalid JSON received"}))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=os.getenv("PORT") if os.getenv("PORT") else 5001)
