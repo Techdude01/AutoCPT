@@ -39,4 +39,4 @@ with open(wav_file_path, 'rb') as audio_file:
 # Clean up temporary file
 os.remove(wav_file_path)
 
-print(response.text)
+print(response)
