@@ -19,10 +19,9 @@ sd.wait()  # Wait until recording is finished
 # Convert audio to base64 string
 audio_bytes = io.BytesIO()
 np.save(audio_bytes, recording)
-audio_base64 = base64.b64encode(audio_bytes.getvalue()).decode('utf-8')
 response = groq.audio.transcriptions.create(
     model="whisper-large-v3-turbo",
-    file=audio_base64,
+    file=audio_bytes,
     response_format="text"
 )
 
