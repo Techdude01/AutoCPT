@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     stopBtn.addEventListener("click", () => {
         recognition.stop();
+        socket.send(JSON.stringify({ stop: true }));
         startBtn.disabled = false;
         stopBtn.disabled = true;
     });
@@ -36,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         transcriptionElem.innerText = finalTranscript + interimTranscript;
 
-        if (interimTranscript.trim() || finalTranscript.trim()) {
+        if (finalTranscript.trim()) {
             socket.send(JSON.stringify({ text: finalTranscript + interimTranscript }));
         }
     };
@@ -47,6 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
         cptCodesElem.innerHTML = ""; // Clear list before updating
 
         if (data.cpt_history && data.cpt_history.length > 0) {
+            cptCodesElem.innerHTML = "";
             data.cpt_history.forEach((entry) => {
                 let [term, code] = Object.entries(entry)[0];
                 let li = document.createElement("li");

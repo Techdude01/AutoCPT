@@ -24,6 +24,7 @@ def index():
 def generate_cpt_codes(transcribed_text):
     global full_transcription, transcription_start_time
     full_transcription += transcribed_text.lower()
+    print(transcribed_text)
     # cpt_dict = {
     #     "consultation": "99241",
     #     "physical examination": "99386",
@@ -31,6 +32,7 @@ def generate_cpt_codes(transcribed_text):
     #     "therapy": "97110",
     #     "injection": "96372"
     # }
+    print(full_transcription)
     if transcription_start_time is None:
         transcription_start_time = datetime.now()
     if (datetime.now() - transcription_start_time).seconds > 5:
@@ -41,7 +43,7 @@ def generate_cpt_codes(transcribed_text):
 
 @sock.route('/ws')
 def websocket_connection(ws):
-    global cpt_history
+    global cpt_history, transcription_start_time, full_transcription
     while True:
         data = ws.receive()
         if not data:
@@ -49,7 +51,13 @@ def websocket_connection(ws):
 
         try:
             received_json = json.loads(data)
+            if "stop" in received_json:
+                print("Stopping transcription")
+                transcription_start_time = None
+                full_transcription = ""
+                continue
             received_text = received_json.get("text", "").strip()
+            
 
             if received_text:
                 cpt_codes = generate_cpt_codes(received_text)
