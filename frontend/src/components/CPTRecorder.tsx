@@ -31,10 +31,9 @@ export function CPTRecorder() {
   useEffect(() => {
     if (cptHistory) {
       const codes = []
-      console.log(cptHistory)
-      for (const codeObj of cptHistory) {
-        const [code, description] = Object.entries(codeObj)[0]
-        codes.push(`${code} - ${description}`)
+      for (const key of Object.keys(cptHistory)) {
+        // @ts-ignore
+        codes.push(`${key} - ${cptHistory[key]}`)
       }
       setCPTCodes(codes)
     }
