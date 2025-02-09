@@ -26,16 +26,7 @@ def index():
 
 def generate_cpt_codes(transcribed_text):
     global full_transcription, transcription_start_time
-    full_transcription += transcribed_text.lower()
-    print(transcribed_text)
-    # cpt_dict = {
-    #     "consultation": "99241",
-    #     "physical examination": "99386",
-    #     "surgery": "10140",
-    #     "therapy": "97110",
-    #     "injection": "96372"
-    # }
-    print(full_transcription)
+    full_transcription = transcribed_text.lower()
     if transcription_start_time is None:
         transcription_start_time = datetime.now()
     if (datetime.now() - transcription_start_time).seconds > 5:
