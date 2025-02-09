@@ -1,24 +1,29 @@
 import { useState, useEffect } from "react";
 import { Text, View, StyleSheet, TextInput, ScrollView, TouchableOpacity } from "react-native";
 import { useSpeechRecognition } from "../hooks/useSpeechRecognition";
-import { extractCPTCodes } from "../hooks/extractCPTCodes";
 import { Ionicons } from "@expo/vector-icons";
 import Clipboard from "@react-native-clipboard/clipboard";
 
 export default function Index() {
-  const { isListening, transcript, error, startListening, stopListening } = useSpeechRecognition();
-  const [cptCodes, setCPTCodes] = useState<string[]>([]);
+  const { 
+    isListening, 
+    transcript, 
+    error, 
+    cptCodes, 
+    loading,
+    startListening, 
+    stopListening 
+  } = useSpeechRecognition();
+  
   const [searchTerm, setSearchTerm] = useState("");
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
-  useEffect(() => {
-    if (!isListening && transcript) {
-      const codes = extractCPTCodes(transcript);
-      setCPTCodes(codes);
-    }
-  }, [isListening, transcript]);
+  // Convert cptCodes object to array of formatted strings
+  const formattedCodes = Object.entries(cptCodes).map(
+    ([code, description]) => `${code} - ${description}`
+  );
 
-  const filteredCodes = cptCodes.filter((code) => 
+  const filteredCodes = formattedCodes.filter((code) => 
     code.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -50,6 +55,7 @@ export default function Index() {
               isListening ? styles.buttonDestructive : styles.buttonPrimary,
             ]}
             onPress={isListening ? stopListening : startListening}
+            disabled={loading}
           >
             <Ionicons
               name={isListening ? "mic-off" : "mic"}
@@ -73,7 +79,11 @@ export default function Index() {
             onChangeText={setSearchTerm}
           />
           
-          {filteredCodes.length > 0 ? (
+          {loading && (
+            <Text style={styles.loadingText}>Processing transcript...</Text>
+          )}
+          
+          {!loading && filteredCodes.length > 0 ? (
             <View style={styles.codesGrid}>
               {filteredCodes.map((code, index) => (
                 <TouchableOpacity
@@ -95,7 +105,7 @@ export default function Index() {
             </View>
           ) : (
             <Text style={styles.emptyText}>
-              {cptCodes.length > 0
+              {formattedCodes.length > 0
                 ? "No matching CPT codes found."
                 : "No CPT codes extracted yet. Start recording to extract codes."}
             </Text>
@@ -264,5 +274,10 @@ const styles = StyleSheet.create({
   transcriptText: {
     fontSize: 14,
     lineHeight: 20,
+  },
+  loadingText: {
+    textAlign: 'center',
+    color: '#666',
+    marginTop: 8,
   },
 });
