@@ -1,0 +1,9 @@
+{
+  "name": "HackNYU2025",
+  "lockfileVersion": 3,
+  "requires": true,
+  "packages": {},
+  "dependencies": {
+    "expo": "^52.0.31"
+  }
+}
