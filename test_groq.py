@@ -2,8 +2,7 @@ import os
 import re
 from groq import Groq
 from dotenv import load_dotenv
-from ultralytics import YOLO
-import cv2
+
 
 load_dotenv()
 
@@ -40,24 +39,6 @@ def get_cpt_codes(medical_text):
     # for code, description in matches:
     #     print(f"CPT {code}: {description.strip()}")
 
-def testDetect():
-    names=["best.pt","bestOld.pt"]
-    for mName in names:
-        model = YOLO(mName)  # Replace with your model file path if needed
-
-        # Load the image to test
-        image_path = 'istockphoto-471457370-612x612.jpg'
-        img = cv2.imread(image_path)
-        # Perform inference (object detection)
-        results = model(img)
-        # Draw the results on the image (bounding boxes, labels)
-        img_with_detections = results[0].plot()
-        # Save or display the result
-        output_image_path = mName+'.jpg'
-        cv2.imwrite(output_image_path, img_with_detections)  # Save the image with detections
-
-        print(f"Detection result saved at: {output_image_path}")
-
-def main():
-    testDetect()
-main()
+# def main():
+#     testDetect()
+# main()
