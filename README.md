@@ -29,7 +29,16 @@ AutoCPT is an intelligent assistant that leverages live speech recognition and A
 ## Prerequisites
 
 - **Backend:**
-  - 
+  
+- **Python 3.8+**
+- **API Keys:**  
+  AutoCPT requires API keys for integration with external AI services. These keys should be placed in a `.env` file in the root directory. For example, set the `GROQ_API_KEY`:
+  ```env
+  GROQ_API_KEY=your_api_key_here
+  ```
+- **Packages:**  
+  All required Python packages are listed in the `requirements.txt` file.
+
 ---
 
 ## Installation
