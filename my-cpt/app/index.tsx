@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Text, View, StyleSheet, TextInput, ScrollView, TouchableOpacity } from "react-native";
 import { useSpeechRecognition } from "../hooks/useSpeechRecognition";
 import { Ionicons } from "@expo/vector-icons";
 import Clipboard from "@react-native-clipboard/clipboard";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function Index() {
   const { 
@@ -30,14 +31,17 @@ export default function Index() {
   const handleCopy = async (code: string) => {
     try {
       await Clipboard.setString(code);
-      // You might want to add a toast notification here using react-native-toast-message
+      // Optionally add a toast notification here
     } catch (error) {
       console.error("Failed to copy to clipboard:", error);
     }
   };
 
   return (
-    <View style={styles.container}>
+    <LinearGradient 
+      colors={['#0f172a', '#1e293b']} 
+      style={styles.container}
+    >
       <ScrollView style={styles.mainContent}>
         <Text style={styles.title}>CPT Code Recorder</Text>
 
@@ -75,6 +79,7 @@ export default function Index() {
           <TextInput
             style={styles.searchInput}
             placeholder="Search CPT codes..."
+            placeholderTextColor="#94a3b8"
             value={searchTerm}
             onChangeText={setSearchTerm}
           />
@@ -95,7 +100,7 @@ export default function Index() {
                     <Text style={styles.codeNumber}>
                       {code.split(" - ")[0]}
                     </Text>
-                    <Ionicons name="copy-outline" size={20} color="#666" />
+                    <Ionicons name="copy-outline" size={20} color="#cbd5e1" />
                   </View>
                   <Text style={styles.codeDescription}>
                     {code.split(" - ")[1]}
@@ -125,7 +130,7 @@ export default function Index() {
           <Ionicons
             name={isSidebarCollapsed ? "chevron-forward" : "chevron-back"}
             size={24}
-            color="#666"
+            color="#cbd5e1"
           />
         </TouchableOpacity>
         {!isSidebarCollapsed && (
@@ -133,7 +138,7 @@ export default function Index() {
             <View style={styles.sidebarHeader}>
               <Text style={styles.sidebarTitle}>Full Transcription</Text>
               <TouchableOpacity onPress={() => handleCopy(transcript)}>
-                <Ionicons name="copy-outline" size={24} color="#666" />
+                <Ionicons name="copy-outline" size={24} color="#cbd5e1" />
               </TouchableOpacity>
             </View>
             <ScrollView style={styles.transcriptContainer}>
@@ -142,109 +147,111 @@ export default function Index() {
           </>
         )}
       </View>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   mainContent: {
     flex: 1,
     padding: 16,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 28,
+    fontWeight: "bold",
     marginBottom: 16,
+    // Approximates the frontend gradient text with a vibrant cyan
+    color: "#22d3ee",
   },
   card: {
-    backgroundColor: 'white',
+    backgroundColor: "rgba(30, 41, 59, 0.5)", // Semi-transparent dark slate
     borderRadius: 8,
     padding: 16,
     marginBottom: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    borderWidth: 1,
+    borderColor: "#334155",
   },
   cardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 12,
   },
   cardTitle: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: "600",
+    color: "#e2e8f0",
   },
   recordingIndicator: {
-    color: 'red',
+    color: "#f87171",
     fontSize: 14,
   },
   button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     padding: 12,
     borderRadius: 8,
     gap: 8,
   },
   buttonPrimary: {
-    backgroundColor: '#007AFF',
+    backgroundColor: "#06b6d4",
   },
   buttonDestructive: {
-    backgroundColor: '#FF3B30',
+    backgroundColor: "#ef4444",
   },
   buttonText: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   errorText: {
-    color: '#FF3B30',
+    color: "#f87171",
     marginTop: 8,
   },
   searchInput: {
     borderWidth: 1,
-    borderColor: '#E5E5EA',
+    borderColor: "#475569",
     borderRadius: 8,
     padding: 12,
     marginBottom: 16,
+    color: "#e2e8f0",
   },
   codesGrid: {
     gap: 12,
   },
   codeCard: {
-    backgroundColor: '#F2F2F7',
+    backgroundColor: "rgba(30, 41, 59, 0.5)",
     borderRadius: 8,
     padding: 12,
   },
   codeCardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 8,
   },
   codeNumber: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
+    color: "#e2e8f0",
   },
   codeDescription: {
     fontSize: 14,
-    color: '#666',
+    color: "#cbd5e1",
   },
   emptyText: {
-    textAlign: 'center',
-    color: '#666',
+    textAlign: "center",
+    color: "#94a3b8",
   },
   sidebar: {
-    backgroundColor: 'white',
+    backgroundColor: "rgba(30, 41, 59, 0.5)",
     borderLeftWidth: 1,
-    borderLeftColor: '#E5E5EA',
+    borderLeftColor: "#475569",
   },
   sidebarCollapsed: {
     width: 48,
@@ -256,16 +263,17 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   sidebarHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#E5E5EA',
+    borderBottomColor: "#475569",
   },
   sidebarTitle: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
+    color: "#e2e8f0",
   },
   transcriptContainer: {
     flex: 1,
@@ -274,10 +282,11 @@ const styles = StyleSheet.create({
   transcriptText: {
     fontSize: 14,
     lineHeight: 20,
+    color: "#e2e8f0",
   },
   loadingText: {
-    textAlign: 'center',
-    color: '#666',
+    textAlign: "center",
+    color: "#cbd5e1",
     marginTop: 8,
   },
 });
