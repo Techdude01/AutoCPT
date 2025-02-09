@@ -2,10 +2,15 @@ import os
 import re
 from groq import Groq
 from dotenv import load_dotenv
+import requests
 
 load_dotenv()
 
 client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+API_KEY = "6120c05078e1185d70ad128556427276"
+BASE_URL = "http://api.nessieisreal.com"
+
+global matches
 
 def get_cpt_codes(medical_text):
 
@@ -36,3 +41,18 @@ def get_cpt_codes(medical_text):
     matches = re.findall(r'(\d{5})\s*:\s*(.*?)(?=\s*\d{5}|$)', response, flags=re.DOTALL)
 
     return {code: description.strip() for code, description in matches}
+
+
+def gen_bill(customer_id):
+    url = f"{BASE_URL}/accounts/{customer_id}/bills?key={API_KEY}"
+    for cpt_code, desc in matches: 
+        bill_data = {
+        "status": "pending",
+        "payee": "Medical Center",
+        "nickname": f"CPT {cpt_code}",
+        "payment_date": "2025-02-09",
+        "recurring_date": 1
+        }
+        response = requests.post(url, json=bill_data)
+        if response.status_code == 201:
+            print("Bill successfully uploaded")
