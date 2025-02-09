@@ -39,14 +39,14 @@ export default function Index() {
 
   return (
     <LinearGradient 
-      colors={['#0f172a', '#1e293b']} 
+      colors={['#0f172a', '#1e293b']}
       style={styles.container}
     >
       <ScrollView style={styles.mainContent}>
-        <Text style={styles.title}>CPT Code Recorder</Text>
+        <Text style={[styles.title, styles.gradientText]}>CPT Code Recorder</Text>
 
         {/* Recording Controls */}
-        <View style={styles.card}>
+        <View style={[styles.card, styles.cardHover]}>
           <View style={styles.cardHeader}>
             <Text style={styles.cardTitle}>Recording Controls</Text>
             {isListening && (
@@ -56,7 +56,7 @@ export default function Index() {
           <TouchableOpacity
             style={[
               styles.button,
-              isListening ? styles.buttonDestructive : styles.buttonPrimary,
+              isListening ? styles.buttonDestructive : styles.buttonGradient,
             ]}
             onPress={isListening ? stopListening : startListening}
             disabled={loading}
@@ -74,7 +74,7 @@ export default function Index() {
         </View>
 
         {/* CPT Codes Section */}
-        <View style={styles.card}>
+        <View style={[styles.card, styles.cardHover]}>
           <Text style={styles.cardTitle}>Extracted CPT Codes</Text>
           <TextInput
             style={styles.searchInput}
@@ -164,16 +164,30 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: "bold",
     marginBottom: 16,
-    // Approximates the frontend gradient text with a vibrant cyan
     color: "#22d3ee",
   },
+  gradientText: {
+    // Updated to match the web gradient text
+    color: "#22d3ee", // Simplified gradient simulation
+  },
   card: {
-    backgroundColor: "rgba(30, 41, 59, 0.5)", // Semi-transparent dark slate
+    backgroundColor: "rgba(30, 41, 59, 0.5)",
     borderRadius: 8,
     padding: 16,
     marginBottom: 16,
     borderWidth: 1,
     borderColor: "#334155",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  cardHover: {
+    shadowColor: "#22d3ee",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
   },
   cardHeader: {
     flexDirection: "row",
@@ -187,8 +201,9 @@ const styles = StyleSheet.create({
     color: "#e2e8f0",
   },
   recordingIndicator: {
-    color: "#f87171",
+    color: "#22d3ee",
     fontSize: 14,
+    opacity: 0.8,
   },
   button: {
     flexDirection: "row",
@@ -198,11 +213,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     gap: 8,
   },
-  buttonPrimary: {
+  buttonGradient: {
     backgroundColor: "#06b6d4",
   },
   buttonDestructive: {
-    backgroundColor: "#ef4444",
+    backgroundColor: "#f43f5e",
   },
   buttonText: {
     color: "white",
