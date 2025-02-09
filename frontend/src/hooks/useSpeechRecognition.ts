@@ -14,6 +14,14 @@ export function useSpeechRecognition() {
   }, [])
 
   const stopListening = useCallback(() => {
+    // if (socket) {
+    //   socket.send(JSON.stringify({ stop: true }))
+    // }
+    fetch('http://127.0.0.1:5001/stop_rec', {
+      method: 'POST',
+    }).catch(err => {
+      console.error('Error stopping recording:', err)
+    })
     setIsListening(false)
   }, [])
 

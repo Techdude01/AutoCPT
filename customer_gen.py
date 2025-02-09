@@ -6,7 +6,7 @@ import requests
 
 load_dotenv()
 
-API_KEY = "6120c05078e1185d70ad128556427276"
+API_KEY = "02dc910989978df6be6517970f552768"
 BASE_URL = "http://api.nessieisreal.com"
 url = f"{BASE_URL}/customers?key={API_KEY}"
 customer_ids = {}
@@ -59,7 +59,9 @@ customers = [
 ]
 
 for customer in customers:
-    response = requests.post(url, json=customer)
+    response = requests.put(url, json=customer)
+    input("ARE YOU SURE? ITS ALR BEEN RUN")
     if response.status_code == 201:
         customer_ids[customer["first_name"]] = response.json().get("objectCreated", {}).get("_id")
-
+    else:
+        print(response.text)
