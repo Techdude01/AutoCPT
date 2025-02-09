@@ -30,22 +30,7 @@ def get_cpt_codes(medical_text):
     )
 
     response = chat_completion.choices[0].message.content
-    
-    chat_completion = client.chat.completions.create(
-        messages=[
-            {
-                "role": "user",
-                "content": f"""List CPT codes for each procedure in the text, formatted as 'CODE: DESCRIPTION' (one per line). Make sure to include the specific codes, and try to keep the description on the shorter side. Also try to include as little overlap in the codes you provide (Don't give 99923 and 99924 if you can give just 99923). Example format:
-    99396: Annual wellness checkup
-    
-    Input medical text:
-    {medical_text}"""  # Removed the trailing "."
-            }
-        ],
-        model="llama-3.3-70b-versatile",
-    )
 
-    response = chat_completion.choices[0].message.content
 
     # Extract codes using colon separator
     matches = re.findall(r'(\d{5})\s*:\s*(.*?)(?=\s*\d{5}|$)', response, flags=re.DOTALL)
