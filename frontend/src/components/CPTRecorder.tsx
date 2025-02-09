@@ -55,7 +55,7 @@ export function CPTRecorder() {
     if (cptHistory) {
       const codes: string[] = []
       for (const key of Object.keys(cptHistory)) {
-        // @ts-ignore
+        // @ts-expect-error
         codes.push(`${key} - ${cptHistory[key]}`)
       }
       setCPTCodes(codes)
@@ -151,8 +151,7 @@ export function CPTRecorder() {
     }
   }, [imageUrl]);
 
-  return (
-    <div className="relative min-h-screen w-screen bg-gradient-to-br from-indigo-800 via-slate-900 to-black overflow-hidden">
+  return ( <div className="relative min-h-screen w-screen bg-gradient-to-br from-indigo-800 via-slate-900 to-black overflow-hidden">
       {/* Optional subtle patterned background */}
       <div className="absolute inset-0 bg-[url('/assets/background-pattern.svg')] opacity-10"></div>
 
@@ -242,44 +241,6 @@ export function CPTRecorder() {
               )}
             </section>
           </div>
-          <Card>
-          <CardHeader>
-            <CardTitle>Upload Image for Detection</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Input type="file" accept="image/*" onChange={handleFileChange} />
-            <Button onClick={handleUpload} className="mt-2">Upload</Button>
-
-            {isLoading && <div id="loading-spinner">Loading...</div>}  {/* Show loading spinner */}
-
-            {uploadStatus && (
-              <p style={{ color: uploadStatusColor }} className="mt-2">
-                {uploadStatus}
-              </p>
-            )}
-
-            {/* Image Preview before processing */}
-            {imagePreviewUrl && (
-              <img
-                src={imagePreviewUrl}
-                alt="Image Preview"
-                className="mt-4 rounded-lg shadow"
-                style={{ display: imagePreviewUrl ? "block" : "none" }}
-              />
-            )}
-
-            {/* Processed image after successful upload */}
-            {imageUrl && (
-              <img
-                src={imageUrl}
-                alt="Processed Image"
-                id="processed-image"
-                className="mt-4 rounded-lg shadow"
-                style={{ display: imageUrl ? "block" : "none" }}
-              />
-            )}
-          </CardContent>
-        </Card>
 
           {/* Right Panel: Transcript Sidebar - Updated z-index */}
           <aside className="relative z-[90] w-full lg:w-1/3 bg-slate-800/50 backdrop-blur-xl p-6 rounded-3xl shadow-xl transition-all duration-300 hover:shadow-2xl">
@@ -295,8 +256,52 @@ export function CPTRecorder() {
             </div>
           </aside>
         </main>
+
+        {/* Computer Vision Section */}
+        <section className="relative z-[90] bg-slate-800/50 backdrop-blur-xl p-6 rounded-3xl shadow-xl transition-all duration-300 hover:shadow-2xl mt-12">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-white text-xl font-semibold">Upload Image for Detection</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Input type="file" accept="image/*" onChange={handleFileChange} className="w-full bg-slate-900/50 border border-slate-700 text-white placeholder:text-slate-400 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300"/>
+              <Button onClick={handleUpload} className="mt-2 bg-gradient-to-br from-indigo-500 to-purple-500 shadow-2xl hover:scale-105 transform transition-transform duration-300">Upload</Button>
+
+              {isLoading && <div id="loading-spinner" className="text-center text-white mt-2">Loading...</div>}  {/* Show loading spinner */}
+
+              {uploadStatus && (
+                <p style={{ color: uploadStatusColor }} className="mt-2 text-white">
+                  {uploadStatus}
+                </p>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                <div className="text-center">
+                  <h3 className="text-white text-lg font-semibold mb-2">Original Image</h3>
+                  {imagePreviewUrl && (
+                    <img
+                      src={imagePreviewUrl}
+                      alt="Image Preview"
+                      className="rounded-lg shadow border border-slate-700"
+                    />
+                  )}
+                </div>
+                <div className="text-center">
+                  <h3 className="text-white text-lg font-semibold mb-2">Processed Image</h3>
+                  {imageUrl && (
+                    <img
+                      src={imageUrl}
+                      alt="Processed Image"
+                      id="processed-image"
+                      className="rounded-lg shadow border border-slate-700"
+                    />
+                  )}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
       </div>
-    </div>
-  )
+    </div>)
 }
 
