@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Text, View, StyleSheet, TextInput, ScrollView, TouchableOpacity } from "react-native";
 import { useSpeechRecognition } from "../hooks/useSpeechRecognition";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "my-cpt/node_modules/expo/vector-icons";
 import Clipboard from "@react-native-clipboard/clipboard";
 
 export default function Index() {
