@@ -161,30 +161,29 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
-    color: "#22d3ee",
+    color: "#e2e8f0", // ✅ Lightened for dark backgrounds
   },
   gradientText: {
-    // Updated to match the web gradient text
-    color: "#22d3ee", // Simplified gradient simulation
+    color: "#e2e8f0", // ✅ Consistent with title
   },
   card: {
-    backgroundColor: "rgba(30, 41, 59, 0.5)",
-    borderRadius: 8,
+    backgroundColor: "rgba(30, 41, 59, 0.7)", // ✅ Increased opacity for better contrast
+    borderRadius: 12,
     padding: 16,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: "#334155",
-    shadowColor: "#000",
+    borderColor: "#475569", // ✅ Soft gray-blue border
+    shadowColor: "#e2e8f0",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
     elevation: 5,
   },
   cardHover: {
-    shadowColor: "#22d3ee",
+    shadowColor: "#e2e8f0",
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
   },
   cardHeader: {
     flexDirection: 'row',
@@ -195,11 +194,12 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 18,
     fontWeight: '600',
+    color: "#e2e8f0", // ✅ Matches title for consistency
   },
   recordingIndicator: {
-    color: "#22d3ee",
+    color: "#e2e8f0",
     fontSize: 14,
-    opacity: 0.8,
+    opacity: 0.9,
   },
   button: {
     flexDirection: 'row',
@@ -221,21 +221,22 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   errorText: {
-    color: '#FF3B30',
+    color: '#ff7f7f', // ✅ Softer red for readability
     marginTop: 8,
   },
   searchInput: {
     borderWidth: 1,
-    borderColor: '#E5E5EA',
+    borderColor: '#475569',
     borderRadius: 8,
     padding: 12,
     marginBottom: 16,
+    color: "#e2e8f0", // ✅ White text input
   },
   codesGrid: {
     gap: 12,
   },
   codeCard: {
-    backgroundColor: '#F2F2F7',
+    backgroundColor: 'rgba(51, 65, 85, 0.8)', // ✅ Slightly transparent for smooth UI
     borderRadius: 8,
     padding: 12,
   },
@@ -248,19 +249,20 @@ const styles = StyleSheet.create({
   codeNumber: {
     fontSize: 16,
     fontWeight: '600',
+    color: "#e2e8f0", // ✅ Lighter text for codes
   },
   codeDescription: {
     fontSize: 14,
-    color: '#666',
+    color: "#cbd5e1", // ✅ Softer gray-blue text for readability
   },
   emptyText: {
     textAlign: 'center',
-    color: '#666',
+    color: "#cbd5e1", // ✅ Lightened text
   },
   sidebar: {
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(15, 23, 42, 0.9)', // ✅ Darker sidebar for contrast
     borderLeftWidth: 1,
-    borderLeftColor: '#E5E5EA',
+    borderLeftColor: '#475569',
   },
   sidebarCollapsed: {
     width: 48,
@@ -277,11 +279,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#E5E5EA',
+    borderBottomColor: '#475569',
   },
   sidebarTitle: {
     fontSize: 16,
     fontWeight: '600',
+    color: "#e2e8f0",
   },
   transcriptContainer: {
     flex: 1,
@@ -290,10 +293,11 @@ const styles = StyleSheet.create({
   transcriptText: {
     fontSize: 14,
     lineHeight: 20,
+    color: "#e2e8f0", // ✅ Lightened transcript text
   },
   loadingText: {
     textAlign: 'center',
-    color: '#666',
+    color: "#cbd5e1", // ✅ Soft gray loading text
     marginTop: 8,
   },
 });

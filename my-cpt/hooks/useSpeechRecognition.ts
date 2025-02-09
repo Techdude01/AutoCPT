@@ -33,15 +33,14 @@ export function useSpeechRecognition() {
 
   useEffect(() => {
     const handleSpeechResults = (e: SpeechResultsEvent) => {
-      const value = e.value?.[0];
-      if (value) {
-        setTranscript(prev => prev.trim() ? `${prev} ${value}` : value);
-      }
+      if (!e.value || e.value.length === 0) return;
+      
+      const text = e.value[e.value.length - 1].trim();
+      setTranscript(text);
     };
 
     const handleSpeechError = (e: SpeechErrorEvent) => {
-      const errorMessage = e.error?.message || "Unknown error occurred";
-      setError(`Speech Recognition Error: ${errorMessage}`);
+      setError(`Speech Recognition Error: ${e.error?.message || "Unknown error occurred"}`);
       setIsListening(false);
     };
 
@@ -80,15 +79,19 @@ export function useSpeechRecognition() {
   }, [transcript]);
 
   const parseCPTCodes = (responseText: string): Record<string, string> => {
-    const codePattern = /(\d{5})\s*:\s*(.*?)(?=\s*\d{5}|$)/g;
-    const matches = responseText.match(codePattern);
-
-    if (!matches) return {};
-
+    console.log("🟠 Parsing CPT Codes from:", responseText);
+    const codePattern = /CODE:\s*(\d+)[^\n]*\nDESCRIPTION:\s*([^\n]+)/g;
+    const matches = [...responseText.matchAll(codePattern)];
+  
+    if (!matches.length) {
+      console.warn("⚠️ No CPT codes detected in response.");
+      return {};
+    }
+  
     return matches.reduce((acc, match) => {
-      const [code, description] = match.split(":").map(str => str.trim());
+      const [_, code, description] = match;
       if (code && description) {
-        acc[code] = description;
+        acc[code.trim()] = description.trim();
       }
       return acc;
     }, {} as Record<string, string>);
@@ -113,7 +116,11 @@ export function useSpeechRecognition() {
           messages: [
             {
               role: "system",
-              content: "You are a medical coding assistant. Extract and list CPT codes from the provided text. Format each code as 'CODE: DESCRIPTION' on a new line."
+              content: `You are a medical coding assistant. For each relevant procedure mentioned, output exactly in this format (and only this format):
+    CODE: [5-digit-number]
+    DESCRIPTION: [procedure description]
+    
+    Limit to 3-5 most relevant codes. Do not include any other text or explanations.`
             },
             {
               role: "user",
