@@ -46,7 +46,6 @@ def websocket_connection(ws):
         data = ws.receive()
         if not data:
             continue
-
         try:
             received_json = json.loads(data)
             received_text = received_json.get("text", "").strip()
