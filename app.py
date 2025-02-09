@@ -54,8 +54,17 @@ def testDetect(image_path):
     # Perform inference (object detection)
     results = model(img)
 
-    # Draw bounding boxes and labels
-    img_with_detections = results[0].plot()
+    # Create a copy of the original image for drawing
+    img_with_detections = img.copy()
+
+    # Get the bounding boxes from results
+    boxes = results[0].boxes.xyxy.cpu().numpy()  # Get boxes in xyxy format
+
+    # Draw only the bounding boxes without labels
+    for box in boxes:
+        x1, y1, x2, y2 = map(int, box[:4])  # Convert coordinates to integers
+        # Draw rectangle with specified color and thickness
+        cv2.rectangle(img_with_detections, (x1, y1), (x2, y2), (0, 255, 0), 2)  # Green color, thickness=2
 
     # Save the image with bounding boxes
     output_filename = os.path.basename(image_path)
