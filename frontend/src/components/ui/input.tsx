@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import {cn} from "/Users/Kushal/PycharmProjects/HackNYU2025/frontend/src/lib/utils"
+import {cn} from "../../lib/utils"
 // @ts-ignore
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
     ({className, type, ...props}, ref) => {
